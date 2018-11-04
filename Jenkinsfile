@@ -13,7 +13,7 @@ pipeline {
         sayHello 'Awesome Student!'
       }
     }
-    stage('Git Information') {
+ /*   stage('Git Information') {
       agent any
 
       steps {
@@ -26,6 +26,7 @@ pipeline {
         }
       }
     }
+    */
     stage('Unit Tests') {
       agent {
         label 'apache'
