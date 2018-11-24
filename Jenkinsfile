@@ -6,27 +6,6 @@ pipeline {
   }
 
   stages {
-    stage('Say Hello') {
-      agent any
-
-      steps {
-        sayHello 'Awesome Student!'
-      }
-    }
- /*   stage('Git Information') {
-      agent any
-
-      steps {
-        echo "My Branch Name: ${env.BRANCH_NAME}"
-
-        script {
-          def myLib = new linuxacademy.git.gitStuff();
-
-          echo "My Commit: ${myLib.gitCommit("${env.WORKSPACE}/.git")}"
-        }
-      }
-    }
-    */
     stage('Unit Tests') {
       agent {
         label 'apache'
@@ -63,7 +42,7 @@ pipeline {
         label 'CentOS'
       }
       steps {
-        sh "wget http://brandon4231.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://ketanvj1c.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
         sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
       }
     }
@@ -72,7 +51,7 @@ pipeline {
         docker 'openjdk:8u121-jre'
       }
       steps {
-        sh "wget http://brandon4231.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://ketanvj1c.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
         sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
       }
     }
@@ -110,26 +89,6 @@ pipeline {
         sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
         sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
       }
-      post {
-        success {
-          emailext(
-            subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Development Promoted to Master",
-            body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Development Promoted to Master":</p>
-            <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-            to: "brandon@linuxacademy.com"
-          )
-        }
-      }
-    }
-  }
-  post {
-    failure {
-      emailext(
-        subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!",
-        body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Failed!":</p>
-        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-        to: "brandon@linuxacademy.com"
-      )
     }
   }
 }
