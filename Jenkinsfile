@@ -30,7 +30,7 @@ pipeline {
     }
     stage('deploy') {
       agent {
-        label 'apache'
+        label 'master'
       }
       steps {
         sh "if ! [ -d '/var/www/html/rectangles/all/${env.BRANCH_NAME}' ]; then mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}; fi"
